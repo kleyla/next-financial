@@ -1,0 +1,32 @@
+{
+  "financialHistory": [
+    {
+      "id": 1,
+      "userId": 1,
+      "type": "ingreso",
+      "amount": 100,
+      "description": "Salario mensual"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "type": "gasto",
+      "amount": 30,
+      "description": "Cena"
+    },
+    {
+      "userId": 1,
+      "type": "ingreso",
+      "amount": 100,
+      "description": "Salario mensual",
+      "id": 3
+    },
+    {
+      "userId": 1,
+      "type": "ingreso",
+      "amount": 100,
+      "description": "Salario mensual",
+      "id": 4
+    }
+  ]
+}
