@@ -1,7 +1,3 @@
-export interface Income {
-  description: string
-  amount: number
-  expenseType: string
-  expenseDate: any
-  userId: number
-}
+import { Record } from "@/app/common/models/record.model";
+
+export interface Income extends Record {}

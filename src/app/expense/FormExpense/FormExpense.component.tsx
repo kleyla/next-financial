@@ -1,26 +1,28 @@
 'use client'
-import { MenuItem, TextField } from '@mui/material'
 import React from 'react'
-import './FormIncome.component.css'
-
-import { type Income } from '../model/Income.class'
-import SaveIncome from '../service/Income.service'
-
+import { useRouter } from 'next/navigation'
+import { MenuItem, TextField } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { Controller, useForm, type SubmitHandler } from 'react-hook-form'
+import dayjs from 'dayjs'
 
 import transactionDescriptionType from '@/app/common/constants/TransactionDescriptionType.constant'
-import { ModalSuccess, OverlayLoader } from '@/app/components'
-import { Controller, useForm, type SubmitHandler } from 'react-hook-form'
-
+import { ModalSuccess, OverlayLoader, SnackbarMessage } from '@/app/components'
 import TypeModal from '@/app/common/enum/typeModal'
-import SnackbarMessage from '@/app/components/Snackbar/SnackbarMessage.components'
-import dayjs from 'dayjs'
-import { useRouter } from 'next/navigation'
+import { useSnackbar } from '@/app/hooks'
 
-export default function FormIncome (): React.JSX.Element {
+import { type Expense } from '../model/expense.class'
+
+import './FormExpense.component.css'
+import { fetchData } from '@/app/common'
+import { RoutesApp } from '@/app/constants/routes'
+
+export default function FormExpense(): React.JSX.Element {
   const router = useRouter()
-  const [open, setOpen] = React.useState(false)
+  const { isOpenSnackbar, eventType, text, setDataSnackbar, closeSnackbar } =
+    useSnackbar()
+  const [isOpenModal, setIsOpenModal] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
   const today = dayjs()
   const {
@@ -29,28 +31,29 @@ export default function FormIncome (): React.JSX.Element {
     handleSubmit,
     reset,
     formState: { errors }
-  } = useForm<Income>({
+  } = useForm<Expense>({
     mode: 'onChange',
     defaultValues: {
       userId: 100,
-      expenseDate: today
+      date: today
     }
   })
-  const [isOpen, setIsOpen] = React.useState(false)
-  const [eventType, setTypeEvent] = React.useState('')
 
   const toggleModal = (): void => {
-    setOpen(state => !state)
+    setIsOpenModal(state => !state)
   }
 
   const handleRedirect = (): void => {
-    setOpen(state => !state)
-    router.back()
+    setIsOpenModal(state => !state)
+    router.push(RoutesApp.EXPENSE_RECORDS.path)
   }
 
-  const onSubmit: SubmitHandler<Income> = data => {
+  const onSubmit: SubmitHandler<Expense> = data => {
     setLoading(true)
-    SaveIncome(data).then(
+    // SaveIncome(data)
+    console.log(data)
+
+    fetchData('financialHistory', 'POST', { ...data, type: 'gasto' }).then(
       result => {
         toggleModal()
         setLoading(false)
@@ -58,27 +61,17 @@ export default function FormIncome (): React.JSX.Element {
       },
       error => {
         setLoading(false)
-        setTypeEvent('error')
+        setDataSnackbar(true, 'error', 'Error al obtener los datos!')
         console.log('Error=>', error)
-        setIsOpen(true)
       }
     )
   }
-  const handleClose = (): void => {
-    setIsOpen(false)
-  }
 
   return (
-    <div className="container">
-      <h1>Registro de ingreso</h1>
-      <h4>Ingresa la información que desea registrar</h4>
-      <form
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={handleSubmit(onSubmit)}
-        className="form-content"
-      >
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} className="form-content">
         <TextField
-          label="Descripcion del Ingreso"
+          label="Descripcion del Gasto"
           variant="standard"
           className="input"
           {...register('description', {
@@ -92,13 +85,13 @@ export default function FormIncome (): React.JSX.Element {
           select
           fullWidth
           variant="standard"
-          label="Tipo de ingreso"
+          label="Tipo de gasto"
           className="input"
           defaultValue=""
           inputProps={register('expenseType', {
             required: { value: true, message: 'Selecione una opcion' }
           })}
-          error={!(errors.expenseType == null)}
+          error={errors.expenseType != null}
           helperText={errors.expenseType?.message}
         >
           <MenuItem value="">--Seleccione--</MenuItem>
@@ -110,7 +103,7 @@ export default function FormIncome (): React.JSX.Element {
         </TextField>
 
         <TextField
-          label="Monto ingreso total en Bs."
+          label="Monto total en Bs."
           className="input"
           type="number"
           variant="standard"
@@ -123,12 +116,12 @@ export default function FormIncome (): React.JSX.Element {
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Controller
-            name="expenseDate"
+            name="date"
             control={control}
             rules={{ required: true }}
             render={({ field: { onChange, value } }) => (
               <DatePicker
-                label="Fecha de ingreso"
+                label="Fecha de gasto"
                 format="DD/MM/YYYY"
                 value={dayjs(value)}
                 onChange={onChange}
@@ -141,9 +134,8 @@ export default function FormIncome (): React.JSX.Element {
               />
             )}
           />
-          {!(errors?.expenseDate == null) &&
-            errors.expenseDate.type === 'required' && (
-              <span className="error-msg">La fecha es requerida</span>
+          {errors?.date != null && errors.date.type === 'required' && (
+            <span className="error-msg">La fecha es requerida</span>
           )}
         </LocalizationProvider>
 
@@ -153,19 +145,21 @@ export default function FormIncome (): React.JSX.Element {
 
         <OverlayLoader isLoading={loading} />
         <ModalSuccess
-          isOpen={open}
-          onClose={toggleModal}
-          onRedirect={handleRedirect}
-          typeTransaction="Ingreso"
+          isOpen={isOpenModal}
+          onHandlePrimary={toggleModal}
+          onHandleSecondary={handleRedirect}
+          textPrimary="Nuevo Gasto"
+          textSecondary="Ver Gastos"
           type={TypeModal.sucess}
           text="Registro Exitoso"
         />
       </form>
       <SnackbarMessage
-        open={isOpen}
-        eventType={eventType}
-        onClose={handleClose}
+        open={isOpenSnackbar}
+        type={eventType}
+        text={text}
+        onClose={closeSnackbar}
       />
-    </div>
+    </>
   )
 }

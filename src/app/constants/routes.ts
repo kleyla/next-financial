@@ -1,14 +1,18 @@
 export const RoutesApp = {
   HOME: {
-    path: '/trackfinancefront',
+    path: '/',
     name: 'Home'
   },
+  EXPENSE_FORM: {
+    path: '/expense/form',
+    name: 'Gastos'
+  },
   INCOME_RECORDS: {
-    path: 'name-route',
-    name: 'ingreso'
+    path: '/income',
+    name: 'Ingresos'
   },
   EXPENSE_RECORDS: {
-    path: 'name-route',
-    name: 'gasto'
+    path: '/expense',
+    name: 'Gastos'
   }
 }

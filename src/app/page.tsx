@@ -2,6 +2,7 @@
 import React from 'react'
 import ingresos from '../assets/images/ingresos.png'
 import { CardComponent } from './components'
+import { RoutesApp } from './constants/routes'
 import './page.css'
 
 export default function Home (): React.JSX.Element {
@@ -18,10 +19,7 @@ export default function Home (): React.JSX.Element {
         <CardComponent
           title="Registro de ingresos"
           icon={ingresos}
-          onCardClick={() => {
-            console.log('here route of page')
-          }}
-          path={'/income'}
+          path={RoutesApp.EXPENSE_FORM.path}
         />
       </div>
     </div>

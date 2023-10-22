@@ -1,27 +1,27 @@
+import React from 'react'
+import Image from 'next/image'
+import { Typography, Modal, Box } from '@mui/material'
+
 import TypeModal from '@/app/common/enum/typeModal'
 import type ModalSuccessProps from '@/app/common/models/ModalSuccessProps'
-import Box from '@mui/material/Box'
-import Modal from '@mui/material/Modal'
-import Typography from '@mui/material/Typography'
-import Image from 'next/image'
-import React from 'react'
 import iconError from '../../../assets/icon/error.svg'
 import iconSuccess from '../../../assets/images/success.png'
 import './ModalSuccess.component.css'
 
-export default function ModalSuccess (
-  {
-    isOpen,
-    onClose,
-    onRedirect,
-    typeTransaction,
-    type
-  }: ModalSuccessProps): React.JSX.Element {
+export default function ModalSuccess({
+  isOpen,
+  type,
+  text,
+  textPrimary,
+  onHandlePrimary,
+  textSecondary,
+  onHandleSecondary
+}: ModalSuccessProps): React.JSX.Element {
   return (
     <div>
       <Modal
         open={isOpen}
-        onClose={onClose}
+        onClose={onHandlePrimary}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -37,13 +37,13 @@ export default function ModalSuccess (
               id="modal-modal-description"
               sx={{ mt: 2, mb: 2 }}
             >
-              Registro Exitoso
+              {text}
             </Typography>
-            <button className="btn-repeat" onClick={onClose}>
-              {`Nuevo ${typeTransaction}`}
+            <button className="btn-repeat" onClick={onHandlePrimary}>
+              {textPrimary}
             </button>
-            <button className="btn-redirect" onClick={onRedirect}>
-              Continuar
+            <button className="btn-redirect" onClick={onHandleSecondary}>
+              {textSecondary}
             </button>
           </div>
         </Box>

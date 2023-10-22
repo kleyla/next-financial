@@ -1,5 +1,5 @@
-import { CircularProgress } from '@mui/material'
 import React from 'react'
+import { CircularProgress } from '@mui/material'
 import './BasicLoader.component.css'
 
 interface BasicLoaderProps {
@@ -10,14 +10,14 @@ const BasicLoader = ({
   isLoading = true
 }: BasicLoaderProps): React.JSX.Element => {
   return (
-    <div>
+    <>
       {isLoading
         ? <CircularProgress
           size={50}
           className='loading'
         />
         : null}
-    </div>
+    </>
   )
 }
 

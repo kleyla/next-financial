@@ -3,11 +3,12 @@ type TypeTransaction = 'Ingreso' | 'Gasto'
 
 interface ModalSuccessProps {
   isOpen: boolean
-  onClose: () => void
-  onRedirect: () => void
-  typeTransaction: TypeTransaction
   type: TypeModal
   text: string
+  textPrimary: string
+  onHandlePrimary: () => void
+  textSecondary?: string
+  onHandleSecondary?: () => void
 }
 
 export default ModalSuccessProps
