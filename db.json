@@ -5,28 +5,50 @@
       "userId": 1,
       "type": "ingreso",
       "amount": 100,
-      "description": "Salario mensual"
+      "description": "Salario mensual",
+      "date": "2023-09-22T14:54:56.908Z"
     },
     {
       "id": 2,
       "userId": 1,
       "type": "gasto",
       "amount": 30,
-      "description": "Cena"
+      "description": "Cena",
+      "date": "2023-10-21T14:54:56.908Z"
     },
     {
       "userId": 1,
       "type": "ingreso",
       "amount": 100,
       "description": "Salario mensual",
-      "id": 3
+      "id": 3,
+      "date": "2023-10-19T14:54:56.908Z"
     },
     {
       "userId": 1,
       "type": "ingreso",
       "amount": 100,
       "description": "Salario mensual",
-      "id": 4
+      "id": 4,
+      "date": "2023-10-20T14:54:56.908Z"
+    },
+    {
+      "userId": 100,
+      "date": "2023-10-21T17:07:28.336Z",
+      "description": "ejemplo",
+      "expenseType": "Shopping",
+      "amount": 12,
+      "type": "gasto",
+      "id": 5
+    },
+    {
+      "userId": 100,
+      "date": "2023-10-22T17:52:25.854Z",
+      "description": "otros",
+      "expenseType": "Food",
+      "amount": 123,
+      "type": "gasto",
+      "id": 6
     }
   ]
 }

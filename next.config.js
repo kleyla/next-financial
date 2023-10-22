@@ -13,7 +13,8 @@ const nextConfig = () => {
   } else {
     return {
       env: {
-        NEXT_PUBLIC_API_URL: 'https://cdgtldev.bsol.com.bo/trackfinanceback',
+        // NEXT_PUBLIC_API_URL: 'https://cdgtldev.bsol.com.bo/trackfinanceback',
+        NEXT_PUBLIC_API_URL: 'http://localhost:3001/',
         NEXT_PUBLIC_PRODUCTION: 'Dev'
       },
       basePath: '/trackfinancefront',
