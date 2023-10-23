@@ -6,7 +6,6 @@ async function fetchData<T, R> (
   body?: R,
   customHeaders?: Record<string, string>
 ): Promise<T> {
-  // eslint-disable-next-line no-useless-catch
   try {
     const baseURL = `${process.env.NEXT_PUBLIC_API_URL}`    
     const response = await fetch(`${baseURL}${url}`, {

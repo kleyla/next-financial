@@ -3,7 +3,7 @@ import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, { type AlertProps, AlertColor } from '@mui/material/Alert'
 
 interface SnackbarProps {
-  open: boolean
+  isOpen: boolean
   type: AlertColor
   text: string
   onClose: () => void
@@ -14,7 +14,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   }
 )
 const SnackbarMessage = ({
-  open,
+  isOpen: open,
   type,
   text,
   onClose

@@ -50,21 +50,15 @@ export default function FormExpense(): React.JSX.Element {
 
   const onSubmit: SubmitHandler<Expense> = data => {
     setLoading(true)
-    // SaveIncome(data)
-    console.log(data)
-
-    fetchData('financialHistory', 'POST', { ...data, type: 'gasto' }).then(
-      result => {
+    fetchData('financialHistory', 'POST', { ...data, type: 'gasto' })
+      .then(result => {
         toggleModal()
-        setLoading(false)
         reset()
-      },
-      error => {
-        setLoading(false)
+      })
+      .catch(error => {
         setDataSnackbar(true, 'error', 'Error al obtener los datos!')
-        console.log('Error=>', error)
-      }
-    )
+      })
+      .finally(() => setLoading(false))
   }
 
   return (
@@ -155,7 +149,7 @@ export default function FormExpense(): React.JSX.Element {
         />
       </form>
       <SnackbarMessage
-        open={isOpenSnackbar}
+        isOpen={isOpenSnackbar}
         type={eventType}
         text={text}
         onClose={closeSnackbar}

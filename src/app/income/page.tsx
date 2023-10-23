@@ -7,13 +7,15 @@ import { IRootState } from '@/app/redux'
 import { fetchData } from '@/app/common'
 import TypeRecord from '@/app/common/enum/typeRecord'
 import { setIncomes } from '../redux/slices/incomeSlice'
-import { OverlayLoader, TableRecords } from '../components'
+import { OverlayLoader, SnackbarMessage, TableRecords } from '../components'
 import styles from './page.module.css'
+import { useSnackbar } from '../hooks'
 
 const Income = () => {
   const [isLoading, setIsLoading] = useState(true)
   const { incomes } = useSelector((state: IRootState) => state.income)
   const dispatch = useDispatch()
+  const { isOpenSnackbar, closeSnackbar, setIsOpenSnackbar } = useSnackbar()
 
   const getIncomes = async () => {
     fetchData('financialHistory', 'GET')
@@ -21,11 +23,12 @@ const Income = () => {
         // setIncome(res)
         const data = res.filter(item => item.type === TypeRecord.income)
         dispatch(setIncomes(data))
-        setIsLoading(false)
       })
       .catch(error => {
+        setIsOpenSnackbar(true)
         console.log(error)
       })
+      .finally(() => setIsLoading(false))
   }
   useEffect(() => {
     getIncomes()
@@ -40,6 +43,12 @@ const Income = () => {
         <h4>Datos registrados</h4>
         <TableRecords type={TypeRecord.income} data={incomes} />
       </div>
+      <SnackbarMessage
+        isOpen={isOpenSnackbar}
+        text="Error al obtener los datos!"
+        onClose={closeSnackbar}
+        type="error"
+      />
     </>
   )
 }

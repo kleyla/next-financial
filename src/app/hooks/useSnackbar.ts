@@ -24,7 +24,8 @@ const useSnackbar = (
     eventType: type,
     text: label,
     setDataSnackbar,
-    closeSnackbar
+    closeSnackbar,
+    setIsOpenSnackbar
   }
 }
 
